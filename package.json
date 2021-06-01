@@ -1,0 +1,27 @@
+{
+  "name": "avwx-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "bin": {
+    "metar": "./metar.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:dev": "tsc -p tsconfig.json --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "luxon": "^1.27.0",
+    "say": "^0.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "typescript": "^4.3.2"
+  }
+}
