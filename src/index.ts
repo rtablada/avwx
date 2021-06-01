@@ -1,9 +1,10 @@
 import https from 'https';
-import { DateTime } from 'luxon';
 import Metar from './interfaces/metar';
 import winds from './segments/wind';
-import { speak } from './utils';
 import visibility from './segments/visibility';
+import clouds from './segments/clouds';
+import altimeter from './segments/altimeter';
+import preamble from './segments/preamble';
 
 const token = process.env.AVWX_TOKEN;
 const defaultICAO = process.env.METAR_ICAO || 'KJFK';
@@ -22,9 +23,11 @@ export default async function main(icao:string = defaultICAO) {
   const metarData: Metar = await fetchJSON(`https://avwx.rest/api/metar/${icao}?token=${token}`) as Metar;
   const stationData:any = await fetchJSON(`https://avwx.rest/api/station/${icao}?token=${token}`);
 
-  const parsedTime = DateTime.fromISO(metarData.time.dt).toUTC();
+  console.log(metarData.sanitized);
 
-  await speak(`Weather report for ${stationData.name} for ${parsedTime.hour} ${parsedTime.minute} Zulu`);
+  await preamble(stationData, metarData);
   await winds(metarData);
   await visibility(metarData);
+  await clouds(metarData);
+  await altimeter(metarData);
 }
